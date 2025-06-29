@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimi英语口语教练 - 提升口语自信</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #d1e0fd 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--light-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(135deg, #4a6cf7 0%, #3a56e4 100%);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin: 30px 0;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover;
+            opacity: 0.1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            background: white;
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button i {
+            font-size: 1.4rem;
+        }
+        
+        /* 功能卡片 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        /* 主要内容区 */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .scenario-section {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            color: var(--primary);
+        }
+        
+        .section-title i {
+            font-size: 1.7rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+        }
+        
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .scenario-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .scenario-card:hover {
+            background: var(--light-gray);
+            transform: translateY(-5px);
+        }
+        
+        .scenario-card.active {
+            background: rgba(67, 97, 238, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
+        }
+        
+        .scenario-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .scenario-card.active i {
+            transform: scale(1.2);
+        }
+        
+        .scenario-card h4 {
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .difficulty-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--dark);
+            text-align: center;
+        }
+        
+        .difficulty-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* 练习区 */
+        .practice-section {
+            flex: 2;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .dialogue-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6ebff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            box-shadow: inset 0 4px 15px rgba(67, 97, 238, 0.1);
+        }
+        
+        .dialogue-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .dialogue-text p {
+            margin-bottom: 15px;
+        }
+        
+        .dialogue-text span.highlight {
+            background: rgba(72, 149, 239, 0.2);
+            padding: 4px 12px;
+            border-radius: 8px;
+            border: 1px dashed rgba(67, 97, 238, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .control-btn i {
+            font-size: 1.3rem;
+        }
+        
+        .record-section {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f3ff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+        
+        .record-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.5);
+        }
+        
+        .record-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .record-btn.recording {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(135deg, var(--warning), #d81b60);
+        }
+        
+        .timer-container {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+        
+        .wave-container {
+            width: 100%;
+            height: 120px;
+            background: white;
+            border-radius: 15px;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--light-gray);
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .wave-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 评分区 */
+        .score-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .score-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+        }
+        
+        .score-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .score-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 15px 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .score-title {
+            color: var(--gray);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .score-detail {
+            color: var(--dark);
+            font-size: 1.1rem;
+            padding: 12px;
+            background: var(--light);
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+        
+        .progress-ring {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring-circle {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            margin-top: 70px;
+            color: var(--gray);
+            padding: 20px;
+            font-size: 1rem;
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(247, 37, 133, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(247, 37, 133, 0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .hero {
+                padding: 30px 20px;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-comment-dots"></i>
+                    <h1>Kimi英语口语教练</h1>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary"><i class="fas fa-history"></i> 练习历史</button>
+                    <button class="btn btn-primary"><i class="fab fa-github"></i> 登录</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <h2>开口说英语，自信表达自我</h2>
+                <p>利用AI技术打破口语障碍，通过情景对话练习、实时评分反馈，快速提升英语口语能力</p>
+                <button class="cta-button" id="startPractice">
+                    <i class="fas fa-microphone-alt"></i> 开始免费练习
+                </button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI情景对话</h3>
+                <p>Kimi智能生成真实场景对话，涵盖日常、校园、职场等10大主题，让学习更贴近实际应用</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h3>实时发音分析</h3>
+                <p>先进波形对比技术精准评估发音，可视化反馈帮助您明确改进方向，针对性提升口语能力</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>多维评分系统</h3>
+                <p>从发音准确度、流利度、情感表达三个维度全面评估口语能力，提供个性化学习建议</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="scenario-section">
+                <div class="section-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h2>选择练习场景</h2>
+                </div>
+                <div class="scenario-grid" id="scenarioGrid">
+                    <!-- 场景卡片将通过JS动态生成 -->
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>难度设置</h2>
+                </div>
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn" data-level="beginner">初级</button>
+                    <button class="difficulty-btn active" data-level="intermediate">中级</button>
+                    <button class="difficulty-btn" data-level="advanced">高级</button>
+                </div>
+            </div>
+            
+            <div class="practice-section">
+                <div class="section-title">
+                    <i class="fas fa-comments"></i>
+                    <h2>对话练习</h2>
+                </div>
+                
+                <div class="dialogue-box">
+                    <div class="dialogue-text" id="dialogueText">
+                        <p>A: Can I get <span class="highlight">a table for two</span>, please?</p>
+                        <p>B: Certainly, would you prefer <span class="highlight">smoking or non-smoking</span>?</p>
+                        <p>A: Non-smoking, please. And can we have <span class="highlight">a table by the window</span>?</p>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn" id="regenerateBtn">
+                        <i class="fas fa-sync-alt"></i> 重新生成
+                    </button>
+                    <button class="control-btn" id="speakBtn">
+                        <i class="fas fa-volume-up"></i> AI朗读
+                    </button>
+                    <button class="control-btn">
+                        <i class="fas fa-download"></i> 保存对话
+                    </button>
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h2>口语练习</h2>
+                </div>
+                
+                <div class="record-section">
+                    <p style="font-size: 1.2rem; margin-bottom: 20px;">点击下方按钮开始录音，请清晰朗读上面的对话</p>
+                    <button class="record-btn" id="recordButton">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <div class="timer-container" id="timer">00:00</div>
+                    
+                    <div class="wave-container">
+                        <div class="wave" id="waveform"></div>
+                    </div>
+                    <div class="wave-labels">
+                        <span>AI发音波形</span>
+                        <span>你的发音波形</span>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-star"></i>
+                    <h2>评分反馈</h2>
+                </div>
+                
+                <div class="score-section" id="scoreSection">
+                    <div class="score-card">
+                        <h3 class="score-title">发音准确度</h3>
+                        <div class="progress-ring">
+                            <svg width="150" height="150">
+                                <circle class="progress-ring-circle" stroke="#e6e6e6" stroke-width="12" fill="transparent" r="65" cx="75" cy="75"/>
+                                <circle class="progress-ring-circle" stroke="#4361ee" stroke-width="12" stroke-linecap="round" fill="transparent" r="65" cx="75" cy="75" 
+                                        stroke-dasharray="408" stroke-dashoffset="81.6"/>
+                            </svg>
+                            <div class="progress-text">80%</div>
+                        </div>
+                        <div class="score-detail">
+                            重点改进: th发音
+                        </div>
+                    </div>
+                    
+                    <div class="score-card">
+                        <h3 class="score-title">流利度</h3>
+                        <div class="progress-ring">
+                            <svg width="150" height="150">
+                                <circle class="progress-ring-circle" stroke="#e6e6e6" stroke-width="12" fill="transparent" r="65" cx="75" cy="75"/>
+                                <circle class="progress-ring-circle" stroke="#4cc9f0" stroke-width="12" stroke-linecap="round" fill="transparent" r="65" cx="75" cy="75" 
+                                        stroke-dasharray="408" stroke-dashoffset="122.4"/>
+                            </svg>
+                            <div class="progress-text">70%</div>
+                        </div>
+                        <div class="score-detail">
+                            减少停顿次数
+                        </div>
+                    </div>
+                    
+                    <div class="score-card">
+                        <h3 class="score-title">情感表达</h3>
+                        <div class="progress-ring">
+                            <svg width="150" height="150">
+                                <circle class="progress-ring-circle" stroke="#e6e6e6" stroke-width="12" fill="transparent" r="65" cx="75" cy="75"/>
+                                <circle class="progress-ring-circle" stroke="#f72585" stroke-width="12" stroke-linecap="round" fill="transparent" r="65" cx="75" cy="75" 
+                                        stroke-dasharray="408" stroke-dashoffset="163.2"/>
+                            </svg>
+                            <div class="progress-text">60%</div>
+                        </div>
+                        <div class="score-detail">
+                            增加语调变化
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Kimi英语口语教练 | 利用AI技术助力英语口语学习 | 教育公益项目</p>
+            <p>提示：本工具需要使用Chrome、Edge或Firefox等现代浏览器</p>
+        </div>
+    </footer>
+
+    <script>
+        // 场景数据
+        const scenarios = [
+            { id: 'dining', icon: 'fa-utensils', name: '餐厅点餐', active: true },
+            { id: 'shopping', icon: 'fa-shopping-cart', name: '购物交流' },
+            { id: 'hotel', icon: 'fa-hotel', name: '酒店住宿' },
+            { id: 'transport', icon: 'fa-bus', name: '交通出行' },
+            { id: 'campus', icon: 'fa-user-graduate', name: '校园生活' },
+            { id: 'work', icon: 'fa-briefcase', name: '职场沟通' },
+            { id: 'health', icon: 'fa-heartbeat', name: '健康医疗' },
+            { id: 'travel', icon: 'fa-mountain', name: '旅行观光' }
+        ];
+        
+        // 难度按钮
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        
+        // 初始化场景选择
+        function initScenarios() {
+            const scenarioGrid = document.getElementById('scenarioGrid');
+            scenarioGrid.innerHTML = '';
+            
+            scenarios.forEach(scenario => {
+                const card = document.createElement('div');
+                card.className = `scenario-card ${scenario.active ? 'active' : ''}`;
+                card.dataset.id = scenario.id;
+                card.innerHTML = `
+                    <i class="fas ${scenario.icon}"></i>
+                    <h4>${scenario.name}</h4>
+                `;
+                
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    generateDialogue(scenario.id);
+                });
+                
+                scenarioGrid.appendChild(card);
+            });
+        }
+        
+        // 难度选择
+        difficultyButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                difficultyButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const activeScenario = document.querySelector('.scenario-card.active');
+                if (activeScenario) {
+                    generateDialogue(activeScenario.dataset.id);
+                }
+            });
+        });
+        
+        // 生成对话
+        function generateDialogue(scenarioId) {
+            const dialogueText = document.getElementById('dialogueText');
+            dialogueText.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Kimi AI正在生成对话...</p>';
+            
+            // 模拟API请求延迟
+            setTimeout(() => {
+                const scenario = scenarios.find(s => s.id === scenarioId);
+                const dialogues = getDialoguesForScenario(scenarioId);
+                
+                let html = '';
+                dialogues.forEach(dialogue => {
+                    html += `<p>${dialogue.speaker}: ${dialogue.text}</p>`;
+                });
+                
+                dialogueText.innerHTML = html;
+                
+                // 添加高亮关键词
+                const paragraphs = dialogueText.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    const text = p.textContent;
+                    const colonIndex = text.indexOf(':');
+                    if (colonIndex !== -1) {
+                        const speaker = text.substring(0, colonIndex + 1);
+                        const content = text.substring(colonIndex + 1);
+                        
+                        // 随机选择要加亮的单词
+                        const words = content.split(' ');
+                        let highlightedContent = '';
+                        let highlightCount = 0;
+                        
+                        words.forEach(word => {
+                            // 随机选择一些关键词进行高亮
+                            if (word.length > 4 && Math.random() > 0.7 && highlightCount < 2) {
+                                highlightedContent += `<span class="highlight">${word}</span> `;
+                                highlightCount++;
+                            } else {
+                                highlightedContent += word + ' ';
+                            }
+                        });
+                        
+                        p.innerHTML = `${speaker} ${highlightedContent}`;
+                    }
+                });
+            }, 1000);
+        }
+        
+        // 获取不同场景的对话
+        function getDialoguesForScenario(scenarioId) {
+            const dialogues = {
+                dining: [
+                    { speaker: 'A', text: 'Can I get a table for two, please?' },
+                    { speaker: 'B', text: 'Certainly, would you prefer smoking or non-smoking?' },
+                    { speaker: 'A', text: 'Non-smoking, please. And can we have a table by the window?' }
+                ],
+                shopping: [
+                    { speaker: 'A', text: 'Excuse me, how much is this shirt?' },
+                    { speaker: 'B', text: 'It\'s $45.99. We have a buy one get one half off promotion today.' },
+                    { speaker: 'A', text: 'That sounds great! Can I try it on in my size?' }
+                ],
+                hotel: [
+                    { speaker: 'A', text: 'Good evening, I have a reservation under the name Johnson.' },
+                    { speaker: 'B', text: 'Yes, Mr. Johnson. We have a deluxe room for you with a city view.' },
+                    { speaker: 'A', text: 'Perfect! Does the room have a balcony?' }
+                ],
+                transport: [
+                    { speaker: 'A', text: 'Could you tell me how to get to the central station?' },
+                    { speaker: 'B', text: 'Take bus number 5 from this stop. It will take about 15 minutes.' },
+                    { speaker: 'A', text: 'How often does the bus come?' }
+                ],
+                campus: [
+                    { speaker: 'A', text: 'Do you know where the library is?' },
+                    { speaker: 'B', text: 'It\'s the big building next to the student center. I can show you.' },
+                    { speaker: 'A', text: 'That would be very helpful, thank you!' }
+                ],
+                work: [
+                    { speaker: 'A', text: 'Have you finished the quarterly report yet?' },
+                    { speaker: 'B', text: 'I\'m working on it now. I\'ll send it to you by 3 PM.' },
+                    { speaker: 'A', text: 'Great, we need it for the board meeting tomorrow morning.' }
+                ],
+                health: [
+                    { speaker: 'A', text: 'I\'ve been having headaches for the past week.' },
+                    { speaker: 'B', text: 'Any other symptoms? Dizziness or nausea?' },
+                    { speaker: 'A', text: 'Sometimes I feel dizzy, especially when I stand up quickly.' }
+                ],
+                travel: [
+                    { speaker: 'A', text: 'What are the must-see attractions in this city?' },
+                    { speaker: 'B', text: 'You should visit the old town and the museum.
